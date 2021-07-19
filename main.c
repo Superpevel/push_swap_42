@@ -8,7 +8,7 @@ t_list	*ft_lstnew(char *data)
 	t = malloc(sizeof(t_list));
 	if (!t)
 		return (NULL);
-	t->data = data;
+	t->data = ft_atoi(data);
 	t->next = NULL;
     t->prev = NULL;
 	return (t);
@@ -40,12 +40,10 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 	}
 }
 
-
-
 t_list	*sa(t_list *list)  // работает
 {
-	char	*t;
-    char    *t1;
+	int t;
+    int t1;
     while (list->next != NULL)
     {
         list = list->next;
@@ -59,6 +57,58 @@ t_list	*sa(t_list *list)  // работает
 	return (list);
 }
 
+t_list	*ra(t_list *list)  
+{
+	int	t;
+    int    t1;
+    while (list->prev != NULL)
+        list = list->prev;
+    t = list->data;
+    while (list->next != NULL)
+        list = list->next;
+    t1 = list->data;
+    list->data = t;
+    while (list->prev != NULL)
+        list = list->prev;
+    list->data = t1;
+	return (list);
+}
+
+int find_min(t_list *a)
+{
+    int min = 2000;
+    while(a)
+    {
+        printf("chack %d\n",a->data);
+        if(a->data < min)
+        {
+            min = a->data;
+        }
+        a = a->next;
+    }
+    return min ;
+}
+
+t_list *pb(t_list **a,t_list *b)
+{
+    t_list *push_to_b;
+    while ((*a)->next != NULL)
+    {
+       *a = (*a)->next;
+    }
+    while (b->next != NULL)
+    {
+       b = b->next;
+    }
+    push_to_b = *a;
+
+    *a = (*a)->prev;
+    push_to_b->prev = b;
+    b->next = push_to_b;
+    b = b->next;
+    (*a)->next= NULL;
+    return(b);
+}
 int main(int ac, char **av)
 {
     int i;
@@ -68,22 +118,27 @@ int main(int ac, char **av)
     if(ac < 3)
         return(0);
     a = ft_lstnew(av[i]);
+    b = ft_lstnew("12");
     i++;
-    while (av[i] !=NULL)
+    while (av[i] != NULL)
     {
         ft_lstadd_front(&a,ft_lstnew(av[i]));
         i++;
     }
-    // a  = sa(a);
-    while (a->next != NULL)
-    {
-        a = a->next;
-    }
     while (a->prev != NULL)
     {
-        printf("%s 2\n",a->data);
+        printf("%d",a->data);   
         a = a->prev;
-    }  
-    printf("%s\n",a->data);
+    }
+    b = pb(&a,b);
+    printf("%d\n",b->data);
+    // i  = find_min(a);
+    // printf("min value is %d \n ", i);
+    while (a->next != NULL)
+    {
+        printf("%d \n",a->data);
+        a = a->next;
+    }
+    // printf("%d\n",a->data);
     return(0);
 }
