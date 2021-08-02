@@ -1,10 +1,10 @@
-SRCS=		main.c
+SRCS=		main.c helpers.c
 
 CC=		gcc
 
 NAME=		push_swap
 
-CFLAGS +=	-Wextra -Wall -Werror
+CFLAGS +=	
 CFLAGS +=	-ansi -pedantic
 CFLAGS +=	-I.
 
